@@ -1,9 +1,10 @@
 import pygame
 from photosynthesisGun import PhotosynthesisGun
 
+# Settings
 WIDTH, HEIGHT = 950, 700
 BACKGROUND_COLOR = (0,0,0)
-
+MOVEMENT_SPEED = 5
 class CO2Invaders:
     def __init__(self):
         self._init_pygame()
@@ -12,6 +13,7 @@ class CO2Invaders:
 
     def main_loop(self):
         running = True
+        # initial location of gun
         gunX = 440
         gunY = 600
         gun_change = 0
@@ -24,10 +26,10 @@ class CO2Invaders:
                 if event.type == pygame.KEYDOWN:
                     # move right
                     if event.key == pygame.K_RIGHT:
-                        gun_change = 5
+                        gun_change = MOVEMENT_SPEED
                     # move left
                     if event.key == pygame.K_LEFT:
-                        gun_change = -5
+                        gun_change = -MOVEMENT_SPEED
                 if event.type == pygame.KEYUP:
                     # stop moving
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
