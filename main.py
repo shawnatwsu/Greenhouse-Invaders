@@ -1,31 +1,53 @@
 import pygame
 
-# Initialize the pygame
-pygame.init()
+class CO2Invaders:
+    def __init__(self):
+        self._init_pygame()
+        self.screen = pygame.display.set_mode((950, 700))
 
-# Display Screen
-screen = pygame.display.set_mode((950, 700))
 
-# Display Screen Title & Icon
-pygame.display.set_caption("CO2 Invaders")
-icon = pygame.image.load('images/co2.png')
-pygame.display.set_icon(icon)
+    def main_loop(self):
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+            self._handle_input()
+            self._process_game_logic()
+            self._draw()
 
-# Background
-background = pygame.image.load('images/titleBackground.jpg')         # Currently set to title background
+    def _init_pygame(self):
+        pygame.init()
+        pygame.display.set_caption("CO2 Invaders")
 
-# Game Loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    def _handle_input(self):
+        pass
 
-    # Displayed Background Image
-    screen.fill((0,0,0))
-    screen.blit(background, (0,0))
+    def _process_game_logic(self):
+        pass
 
-    pygame.display.update()
+    def _draw(self):
+        self.screen.fill((0,0,0))
+        background = pygame.image.load('images/titleBackground.jpg')         # Currently set to title background
+        self.screen.blit(background, (0,0))
+        icon = pygame.image.load('images/co2.png')
+        pygame.display.set_icon(icon)
+        pygame.display.update()
+
+
+def main():
+    game = CO2Invaders()
+    game.main_loop()
+
+
+if __name__ == '__main__':
+    main()
+
+        
+
+
+    
+
 
 
 
