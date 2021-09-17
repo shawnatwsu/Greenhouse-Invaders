@@ -37,6 +37,12 @@ class CO2Invaders:
             self._process_game_logic()
             self._draw(gunX, gunY)
             gunX += gun_change
+            
+            # handle edges
+            if gunX <= 0:
+                gunX = 0
+            elif gunX >= (WIDTH - 100): # 100 is width of image
+                gunX = (WIDTH - 100)
 
     def _init_pygame(self):
         pygame.init()
