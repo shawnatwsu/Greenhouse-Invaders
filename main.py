@@ -1,5 +1,9 @@
 import pygame
 from photosynthesisGun import PhotosynthesisGun
+from load_sprite import load_sprite
+from CO2Astroids import CO2Astroids
+from components.button import Button
+
 
 # Settings
 WIDTH, HEIGHT = 950, 700
@@ -9,7 +13,14 @@ class CO2Invaders:
     def __init__(self):
         self._init_pygame()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self._background = pygame.image.load('images/titleBackground.jpg')        # Currently set to title background
+        self._button = pygame.image.load('images/titlePageIMG/buttonStart.png')
+        self._state = "title"                                                     # title, intro, unfinished, finished
+        self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', False), (0,0))
+         self.clock = pygame.time.Clock()
 
+    def set_background(self, new_background):
+        self._background = new_background
 
     def main_loop(self):
         running = True
@@ -19,6 +30,7 @@ class CO2Invaders:
         gun_change = 0
 
         while running:
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -36,6 +48,7 @@ class CO2Invaders:
                         gun_change = 0
 
             self._handle_input()
+
             self._process_game_logic()
             self._draw(gunX, gunY)
             gunX += gun_change
@@ -53,8 +66,11 @@ class CO2Invaders:
         icon = pygame.image.load('images/co2.png')
         pygame.display.set_icon(icon)
 
-    def _handle_input(self):
-        pass
+    def _handle_input(self, status):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+
 
     def _process_game_logic(self):
         pass
@@ -72,11 +88,16 @@ class CO2Invaders:
         gun.drawPhotosynthesisGun(gunX, gunY)
 
         # load CO2
-
+        icon = pygame.image.load('images/co2.png')
+        pygame.display.set_icon(icon)
+        self.co2_particle.draw(self.screen)
+        self.co2_particle.move((950, 700))
+        
         # load bullets
 
         # update display
         pygame.display.update()
+        
 
 
 def main():
