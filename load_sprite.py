@@ -1,6 +1,10 @@
 import pygame
 from pygame.image import load
 
+"""
+utility function for loading sprites into the game. Created by Kao to use. 
+"""
+
 def load_sprite(name, with_alpha=True):
     path = f"images/{name}"
     print(path)

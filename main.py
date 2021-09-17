@@ -1,5 +1,4 @@
 import pygame
-from GameObject import GameObject
 from load_sprite import load_sprite
 from CO2Astroids import CO2Astroids
 

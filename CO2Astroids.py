@@ -1,9 +1,8 @@
 from pygame.math import Vector2
-from GameObject import GameObject
 import pygame
 import random
 
-class CO2Astroids(GameObject):
+class CO2Astroids:
 
     def __init__(self,position, sprite, velocity):
 
