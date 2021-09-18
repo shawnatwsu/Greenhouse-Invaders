@@ -25,7 +25,7 @@ class CO2Invaders:
         self.not_fine = pygame.image.load('images/this_is_not_fine.png')
 
         # Components
-        self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', True), (0,0))
+        self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', (80,80), True), (0,0))
         self.gun = PhotosynthesisGun(self.screen, 440, 600, WIDTH)
         self.leaf = LeafBullet(self.screen, self.gun.gunX+30, "ready", LEAF_SPEED) 
 
@@ -93,6 +93,7 @@ class CO2Invaders:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_TAB:
                         self.kills += 1
+
                 # ____________________________________ TEMPORARY ____________________________________________
 
             elif self._state == "lost":
@@ -115,6 +116,12 @@ class CO2Invaders:
                     self.kills = 0
 
     def _process_game_logic(self):
+
+        # collision detection
+        if self.leaf.has_collided(self.co2_particle._x, self.co2_particle._y):
+            self.lives -= 1
+            self.leaf.bullet_state = 'ready'
+            self.leaf.leafY = 0
 
         # Determines how many lives are displayed
         if self.lives == 3:

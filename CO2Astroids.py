@@ -4,7 +4,7 @@ import random
 
 class CO2Astroids:
 
-    def __init__(self,position, sprite, velocity):
+    def __init__(self, position, sprite, velocity):
 
         # inherit the constructor properties of the GameObject class
         self._x = 0
@@ -12,7 +12,7 @@ class CO2Astroids:
         self.sprite = sprite
         
         self._x_change = 0
-        self._y_change = 100
+        self._y_change = 50
         self._num_of_particles = 6
         self.velocity = Vector2(velocity)
         self.radius = sprite.get_width() / 2
@@ -24,12 +24,12 @@ class CO2Astroids:
         # if particle hits the left side of screen, change its direction
         # also move the particle down some y-value
         if self._x <= 0:
-            self._x_change = 5
+            self._x_change = 3
             self._y += self._y_change
         # if particle hits the right side of screen, change its direction
         # also move the particle down some y-value
         elif self._x >= screen_size[0]:
-            self._x_change = -5
+            self._x_change = -3
             self._y += self._y_change
 
         self._x += self._x_change
