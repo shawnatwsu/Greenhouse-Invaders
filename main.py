@@ -1,106 +1,46 @@
 import pygame
-from photosynthesisGun import PhotosynthesisGun
 
 from load_sprite import load_sprite
 from CO2Astroids import CO2Astroids
+from photosynthesisGun import PhotosynthesisGun
 from leafBullet import LeafBullet
-
-
 
 # Settings
 WIDTH, HEIGHT = 950, 700
 BACKGROUND_COLOR = (0,0,0)
 MOVEMENT_SPEED = 5
 LEAF_SPEED = 10
-bullet_state = "ready"
+
 class CO2Invaders:
     def __init__(self):
         self._init_pygame()
 
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self._background = pygame.image.load('images/titleBackground.png')
+        self.clock = pygame.time.Clock()
         self._state = "title"   # title, intro, unfinished, won, lost, lost2
         self.lives = 3
         self.lives_image = pygame.image.load('images/lives_3.png')
         self.kills = 0
         self.not_fine = pygame.image.load('images/this_is_not_fine.png')
 
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        self._background = pygame.image.load('images/titleBackground.png')        # Currently set to title background
-        self._state = "title"                                                     # title, intro, unfinished, finished
+        # Components
         self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', False), (0,0))
-        self.clock = pygame.time.Clock()
+        self.gun = PhotosynthesisGun(self.screen)
+        self.bullet_state = "ready"
 
-
-    def set_background(self, new_background):
-        self._background = new_background
 
     def main_loop(self):
         running = True
-        # initial location of gun
-        gunX = 440
-        gunY = 600
-
-        # initial location of leaf
-        leafX = gunX
-        leafY = 0
-
-        gun_change = 0
-        leaf_change = LEAF_SPEED
-
         while running:
-            global bullet_state
-            
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                
-                if event.type == pygame.KEYDOWN:
-                    # move right
-                    if event.key == pygame.K_RIGHT:
-                        gun_change = MOVEMENT_SPEED
-                    # move left
-                    if event.key == pygame.K_LEFT:
-                        gun_change = -MOVEMENT_SPEED
-                    # fire bullets
-                    if event.key == pygame.K_SPACE and bullet_state == "ready":
-                        bullet_state = "fire"
-                        leafX = gunX
-                        
-                    #     self.fireLeafBullet(gunX, leafY)
-
-                if event.type == pygame.KEYUP:
-                    # stop moving
-                    if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
-                        gun_change = 0
-
             self._handle_input()
-
             self._process_game_logic()
-            self._draw(gunX, gunY, bullet_state, leafX, leafY)
-
-
-            # gun logic -------------------------------------------
-            gunX += gun_change
-            
-            # handle edges
-            if gunX <= 0:
-                gunX = 0
-            elif gunX >= (WIDTH - 100): # 100 is width of image
-                gunX = (WIDTH - 100)
-
-            # bullet logic -------------------------------------------
-            if leafY <= 0:
-                leafY = 605
-                bullet_state = "ready"
-
-            if bullet_state is "fire":
-                leafY -= leaf_change
-
-            # update display
-            pygame.display.update()
+            self._draw()
 
     def _init_pygame(self):
         pygame.init()
         pygame.display.set_caption("CO2 Invaders")
+
         # game icon
         icon = pygame.image.load('images/co2.png')
         pygame.display.set_icon(icon)
@@ -122,10 +62,31 @@ class CO2Invaders:
                         self._background = pygame.image.load('images/game_1.png')
             elif self._state == "unfinished":
 
+                # Keys to control gun
+                if event.type == pygame.KEYDOWN:
+                    # move right
+                    if event.key == pygame.K_RIGHT:
+                        self.gun.set_gun_change(MOVEMENT_SPEED)
+                    # move left
+                    if event.key == pygame.K_LEFT:
+                        self.gun.set_gun_change(-MOVEMENT_SPEED)
+
+                    # # fire bullets
+                    # if event.key == pygame.K_SPACE and self.bullet_state == "ready":
+                    #     self.bullet_state = "fire"
+                    #     leafX = gunX
+                    #
+                    # #     self.fireLeafBullet(gunX, leafY)
+
+                if event.type == pygame.KEYUP:
+                    # stop moving
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
+                        self.gun.set_gun_change(0)
+
                 # ____________________________________ TEMPORARY ____________________________________________
                 # Need code to determine when player loses a life
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
+                    if event.key == pygame.K_BACKSPACE:
                         self.lives -= 1
 
                 # Need code to determine when player kills an enemy
@@ -172,28 +133,12 @@ class CO2Invaders:
             self._state = "won"
 
 
-    def _draw(self, gunX, gunY, bullet_state, leafX, leafY):
+    def _draw(self):
         # background color
         self.screen.fill(BACKGROUND_COLOR)
 
         # load background image and put on screen
-        background = pygame.image.load('images/titleBackground.png')         # Currently set to title background
-        self.screen.blit(background, (0,0))
-
-        # load bullet
-        if bullet_state is "fire":
-            leafBullet = LeafBullet(self.screen)
-            leafBullet.drawLeafBullet(leafX+30, leafY+30) 
-
-        # load photosynthesisGun 
-        gun = PhotosynthesisGun(self.screen)
-        gun.drawPhotosynthesisGun(gunX, gunY)
-        
-        # load CO2
-        icon = pygame.image.load('images/co2.png')
-        pygame.display.set_icon(icon)
-        self.co2_particle.draw(self.screen)
-        self.co2_particle.move((950, 700))
+        self.screen.blit(self._background, (0, 0))
         
         if self._state == "unfinished":
             # Render lives
@@ -204,20 +149,54 @@ class CO2Invaders:
             text_kill = "COUNT: " + str(self.kills)
             kill_display = kill_font.render(text_kill, True, (255, 255, 255))
             self.screen.blit(kill_display, (780, 20))
+
+            # Render CO2 molecule
+            icon = pygame.image.load('images/co2.png')
+            pygame.display.set_icon(icon)
+            self.co2_particle.draw(self.screen)
+            self.co2_particle.move((950, 700))
+
+            # # Render bullet
+            # if self.bullet_state is "fire":
+            #     leafBullet = LeafBullet(self.screen)
+            #     leafBullet.drawLeafBullet(leafX + 30, leafY + 30)
+            #
+
+            # load photosynthesisGun
+            gun = PhotosynthesisGun(self.screen)
+            gun.drawPhotosynthesisGun()
         
         if self._state == "lost":
-          over_font = pygame.font.Font('freesansbold.ttf', 64)
-          over_text = over_font.render("GAME OVER!", True, (255, 255, 255))
-          self.screen.blit(over_text, (280, 250))
+            over_font = pygame.font.Font('freesansbold.ttf', 64)
+            over_text = over_font.render("GAME OVER!", True, (255, 255, 255))
+            self.screen.blit(over_text, (280, 250))
 
         if self._state == "won":
             over_font = pygame.font.Font('freesansbold.ttf', 64)
             over_text = over_font.render("YOU WON!", True, (255, 255, 255))
             self.screen.blit(over_text, (280, 250))
-        
+
+        # # gun logic -------------------------------------------
+        # gunX += gun_change
+        #
+        # # handle edges
+        # if gunX <= 0:
+        #     gunX = 0
+        # elif gunX >= (WIDTH - 100): # 100 is width of image
+        #     gunX = (WIDTH - 100)
+        #
+        # # bullet logic -------------------------------------------
+        # if leafY <= 0:
+        #     leafY = 605
+        #     bullet_state = "ready"
+        #
+        # if bullet_state is "fire":
+        #     leafY -= leaf_change
+
         # update display
-        # pygame.display.update()
-        
+        pygame.display.update()
+
+
 def main():
     game = CO2Invaders()
     game.main_loop()
