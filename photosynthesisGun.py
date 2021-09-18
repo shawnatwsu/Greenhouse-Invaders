@@ -27,16 +27,20 @@ class PhotosynthesisGun:
 
     def drawPhotosynthesisGun(self):
         # print(gunX, gunY)
-        self.screen.blit(self.image, (self.gunX,self.gunY)) # TODO find the center
+        self.gunX += self.gun_change
 
-
-    def move(self, movement):
-        # gun logic -------------------------------------------
-        self.gunX += movement
-        
         # handle edges
         if self.gunX <= 0:
             self.gunX = 0
         elif self.gunX >= (self.width - 100): # 100 is self.width of image
             self.gunX = (self.width - 100)
+
+        self.screen.blit(self.image, (self.gunX, self.gunY)) # TODO find the center
+
+
+    def move(self, movement):
+        # gun logic -------------------------------------------
+        self.gun_change = movement
+        
+
         

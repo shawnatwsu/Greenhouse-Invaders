@@ -67,13 +67,13 @@ class CO2Invaders:
                     # move right
                     if event.key == pygame.K_RIGHT:
                         # self.gun.gunX += 5
-                        self.gun.move(5)
+                        self.gun.move(MOVEMENT_SPEED)
                         # self.gun.set_gun_change(MOVEMENT_SPEED)
                     # move left
                     if event.key == pygame.K_LEFT:
                         # self.gun.set_gun_change(-MOVEMENT_SPEED)
                         # self.gun.gunX -= 5
-                        self.gun.move(-5)
+                        self.gun.move(-MOVEMENT_SPEED)
 
                     # # fire bullets
                     # if event.key == pygame.K_SPACE and self.bullet_state == "ready":
