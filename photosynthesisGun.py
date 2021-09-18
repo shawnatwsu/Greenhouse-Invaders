@@ -3,7 +3,7 @@ import pygame
 
 class PhotosynthesisGun:
 
-    def __init__(self, screen, gunX, gunY):
+    def __init__(self, screen, gunX, gunY, width):
         self.screen = screen
         self.image = pygame.image.load('images/sapling.png')
 
@@ -11,6 +11,7 @@ class PhotosynthesisGun:
         self.gunX = gunX
         self.gunY = gunY
         self.gun_change = 0
+        self.width = width
         
         # resize image
         self.image = pygame.transform.scale(self.image, (100, 70))
@@ -29,3 +30,13 @@ class PhotosynthesisGun:
         self.screen.blit(self.image, (self.gunX,self.gunY)) # TODO find the center
 
 
+    def move(self, movement):
+        # gun logic -------------------------------------------
+        self.gunX += movement
+        
+        # handle edges
+        if self.gunX <= 0:
+            self.gunX = 0
+        elif self.gunX >= (self.width - 100): # 100 is self.width of image
+            self.gunX = (self.width - 100)
+        
