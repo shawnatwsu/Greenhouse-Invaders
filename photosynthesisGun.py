@@ -10,5 +10,5 @@ class PhotosynthesisGun():
         self.image = pygame.transform.scale(self.image, (100, 70))
         
     def drawPhotosynthesisGun(self, gunX, gunY):
-        print(gunX, gunY)
+        # print(gunX, gunY)
         self.screen.blit(self.image, (gunX,gunY)) # TODO find the center
