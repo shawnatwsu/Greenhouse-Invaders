@@ -11,7 +11,7 @@ from leafBullet import LeafBullet
 WIDTH, HEIGHT = 950, 700
 BACKGROUND_COLOR = (0,0,0)
 MOVEMENT_SPEED = 5
-LEAF_SPEED = 5
+LEAF_SPEED = 10
 bullet_state = "ready"
 class CO2Invaders:
     def __init__(self):
@@ -33,14 +33,15 @@ class CO2Invaders:
         gunY = 600
 
         # initial location of leaf
-        leafX = 0
+        leafX = gunX
         leafY = 0
 
         gun_change = 0
         leaf_change = LEAF_SPEED
 
         while running:
-
+            global bullet_state
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -53,11 +54,11 @@ class CO2Invaders:
                     if event.key == pygame.K_LEFT:
                         gun_change = -MOVEMENT_SPEED
                     # fire bullets
-                    if event.key == pygame.K_SPACE:
-                        global bullet_state
+                    if event.key == pygame.K_SPACE and bullet_state == "ready":
                         bullet_state = "fire"
                         leafX = gunX
-                        leafY -= leaf_change
+                        
+                    #     self.fireLeafBullet(gunX, leafY)
 
                 if event.type == pygame.KEYUP:
                     # stop moving
@@ -67,8 +68,10 @@ class CO2Invaders:
             self._handle_input()
 
             self._process_game_logic()
-            self._draw(gunX, gunY, leafX, leafY)
+            self._draw(gunX, gunY, bullet_state, leafX, leafY)
 
+
+            # gun logic -------------------------------------------
             gunX += gun_change
             
             # handle edges
@@ -77,7 +80,7 @@ class CO2Invaders:
             elif gunX >= (WIDTH - 100): # 100 is width of image
                 gunX = (WIDTH - 100)
 
-            # bullet movement
+            # bullet logic -------------------------------------------
             if leafY <= 0:
                 leafY = 605
                 bullet_state = "ready"
@@ -95,7 +98,7 @@ class CO2Invaders:
         icon = pygame.image.load('images/co2.png')
         pygame.display.set_icon(icon)
 
-    def _handle_input(self, status):
+    def _handle_input(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
@@ -104,7 +107,7 @@ class CO2Invaders:
     def _process_game_logic(self):
         pass
 
-    def _draw(self, gunX, gunY, leafX, leafY):
+    def _draw(self, gunX, gunY, bullet_state, leafX, leafY):
         # background color
         self.screen.fill(BACKGROUND_COLOR)
 
@@ -112,10 +115,10 @@ class CO2Invaders:
         background = pygame.image.load('images/titleBackground.jpg')         # Currently set to title background
         self.screen.blit(background, (0,0))
 
-        # load bullet (currently hiding the bullet behind the gun)
-        leafBullet = LeafBullet(self.screen)
-        leafBullet.drawLeafBullet(leafX, leafY)
-
+        # load bullet
+        if bullet_state is "fire":
+            leafBullet = LeafBullet(self.screen)
+            leafBullet.drawLeafBullet(leafX+30, leafY+30) 
 
         # load photosynthesisGun 
         gun = PhotosynthesisGun(self.screen)
@@ -127,18 +130,10 @@ class CO2Invaders:
         self.co2_particle.draw(self.screen)
         self.co2_particle.move((950, 700))
         
-        # load bullets
-
         # update display
-        pygame.display.update()
+        # pygame.display.update()
         
 
-    # def fireLeafBullet(self, leafX, leafY):
-        # global bullet_state
-        # bullet_state = "fire"
-        # leafY -= leaf_change
-    #     leafBullet = LeafBullet(self.screen)
-    #     leafBullet.drawLeafBullet(leafX, leafY)
 
 def main():
     game = CO2Invaders()
