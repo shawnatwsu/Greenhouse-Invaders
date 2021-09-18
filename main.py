@@ -26,7 +26,7 @@ class CO2Invaders:
 
         # Components
         self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', False), (0,0))
-        self.gun = PhotosynthesisGun(self.screen)
+        self.gun = PhotosynthesisGun(self.screen, 440, 600)
         self.bullet_state = "ready"
 
 
@@ -66,10 +66,12 @@ class CO2Invaders:
                 if event.type == pygame.KEYDOWN:
                     # move right
                     if event.key == pygame.K_RIGHT:
-                        self.gun.set_gun_change(MOVEMENT_SPEED)
+                        self.gun.gunX += 5
+                        # self.gun.set_gun_change(MOVEMENT_SPEED)
                     # move left
                     if event.key == pygame.K_LEFT:
-                        self.gun.set_gun_change(-MOVEMENT_SPEED)
+                        # self.gun.set_gun_change(-MOVEMENT_SPEED)
+                        self.gun.gunX -= 5
 
                     # # fire bullets
                     # if event.key == pygame.K_SPACE and self.bullet_state == "ready":
@@ -163,7 +165,7 @@ class CO2Invaders:
             #
 
             # load photosynthesisGun
-            gun = PhotosynthesisGun(self.screen)
+            gun = PhotosynthesisGun(self.screen, self.gun.gunX, self.gun.gunY)
             gun.drawPhotosynthesisGun()
         
         if self._state == "lost":

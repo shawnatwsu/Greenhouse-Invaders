@@ -3,13 +3,13 @@ import pygame
 
 class PhotosynthesisGun:
 
-    def __init__(self, screen):
+    def __init__(self, screen, gunX, gunY):
         self.screen = screen
         self.image = pygame.image.load('images/sapling.png')
 
         # initial location of gun
-        self.gunX = 440
-        self.gunY = 600
+        self.gunX = gunX
+        self.gunY = gunY
         self.gun_change = 0
         
         # resize image
