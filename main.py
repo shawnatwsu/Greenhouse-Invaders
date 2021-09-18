@@ -9,7 +9,7 @@ from leafBullet import LeafBullet
 WIDTH, HEIGHT = 950, 700
 BACKGROUND_COLOR = (0,0,0)
 MOVEMENT_SPEED = 5
-LEAF_SPEED = 10
+LEAF_SPEED = 5
 
 class CO2Invaders:
     def __init__(self):
@@ -27,7 +27,7 @@ class CO2Invaders:
         # Components
         self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', False), (0,0))
         self.gun = PhotosynthesisGun(self.screen, 440, 600, WIDTH)
-        self.bullet_state = "ready"
+        self.leaf = LeafBullet(self.screen, self.gun.gunX+30, "ready", LEAF_SPEED) 
 
 
     def main_loop(self):
@@ -66,21 +66,17 @@ class CO2Invaders:
                 if event.type == pygame.KEYDOWN:
                     # move right
                     if event.key == pygame.K_RIGHT:
-                        # self.gun.gunX += 5
-                        self.gun.move(MOVEMENT_SPEED)
-                        # self.gun.set_gun_change(MOVEMENT_SPEED)
+                        self.gun.set_gun_change(MOVEMENT_SPEED)
                     # move left
                     if event.key == pygame.K_LEFT:
-                        # self.gun.set_gun_change(-MOVEMENT_SPEED)
-                        # self.gun.gunX -= 5
-                        self.gun.move(-MOVEMENT_SPEED)
+                        self.gun.set_gun_change(-MOVEMENT_SPEED)
 
-                    # # fire bullets
-                    # if event.key == pygame.K_SPACE and self.bullet_state == "ready":
-                    #     self.bullet_state = "fire"
-                    #     leafX = gunX
-                    #
-                    # #     self.fireLeafBullet(gunX, leafY)
+                    # fire bullets
+                    if event.key == pygame.K_SPACE and self.leaf.bullet_state == "ready":
+                        self.leaf.bullet_state = "fire"
+                        self.leaf.leafX = self.gun.gunX+30
+                    
+                    #     self.fireLeafBullet(gunX, leafY)
 
                 if event.type == pygame.KEYUP:
                     # stop moving
@@ -160,13 +156,13 @@ class CO2Invaders:
             self.co2_particle.draw(self.screen)
             self.co2_particle.move((950, 700))
 
-            # # Render bullet
+            # Render leaf
             # if self.bullet_state is "fire":
             #     leafBullet = LeafBullet(self.screen)
             #     leafBullet.drawLeafBullet(leafX + 30, leafY + 30)
-            #
+            self.leaf.drawLeafBullet()
 
-            # load photosynthesisGun
+            # Render photosynthesisGun
             self.gun.drawPhotosynthesisGun()
         
         if self._state == "lost":

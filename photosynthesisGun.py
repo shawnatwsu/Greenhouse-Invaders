@@ -38,9 +38,4 @@ class PhotosynthesisGun:
         self.screen.blit(self.image, (self.gunX, self.gunY)) # TODO find the center
 
 
-    def move(self, movement):
-        # gun logic -------------------------------------------
-        self.gun_change = movement
-        
-
         
