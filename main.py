@@ -25,7 +25,7 @@ class CO2Invaders:
         self.not_fine = pygame.image.load('images/this_is_not_fine.png')
 
         # Components
-        self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', False), (0,0))
+        self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', True), (0,0))
         self.gun = PhotosynthesisGun(self.screen, 440, 600, WIDTH)
         self.leaf = LeafBullet(self.screen, self.gun.gunX+30, "ready", LEAF_SPEED) 
 
