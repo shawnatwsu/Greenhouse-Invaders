@@ -27,3 +27,6 @@ class LeafBullet():
 
         if self.bullet_state == "fire":
             self.screen.blit(self.image, (self.leafX,self.leafY)) # TODO find the center
+
+    def set_bullet_state(self, value):
+        self.bullet_state = value
