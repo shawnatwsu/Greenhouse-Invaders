@@ -3,7 +3,6 @@ from photosynthesisGun import PhotosynthesisGun
 
 from load_sprite import load_sprite
 from CO2Astroids import CO2Astroids
-from components.button import Button
 from leafBullet import LeafBullet
 
 
@@ -25,8 +24,7 @@ class CO2Invaders:
         self.not_fine = pygame.image.load('images/this_is_not_fine.png')
 
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        self._background = pygame.image.load('images/titleBackground.jpg')        # Currently set to title background
-        self._button = pygame.image.load('images/titlePageIMG/buttonStart.png')
+        self._background = pygame.image.load('images/titleBackground.png')        # Currently set to title background
         self._state = "title"                                                     # title, intro, unfinished, finished
         self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', False), (0,0))
         self.clock = pygame.time.Clock()
@@ -179,7 +177,7 @@ class CO2Invaders:
         self.screen.fill(BACKGROUND_COLOR)
 
         # load background image and put on screen
-        background = pygame.image.load('images/titleBackground.jpg')         # Currently set to title background
+        background = pygame.image.load('images/titleBackground.png')         # Currently set to title background
         self.screen.blit(background, (0,0))
 
         # load bullet
@@ -197,7 +195,7 @@ class CO2Invaders:
         self.co2_particle.draw(self.screen)
         self.co2_particle.move((950, 700))
         
-         if self._state == "unfinished":
+        if self._state == "unfinished":
             # Render lives
             self.screen.blit(self.lives_image, (0, 0))
 
