@@ -22,7 +22,7 @@ class LeafBullet():
             self.leafY = 605
             self.bullet_state = "ready"
         
-        if self.bullet_state is "fire":
+        if self.bullet_state == "fire":
             self.leafY -= self.leaf_change
 
         if self.bullet_state == "fire":
