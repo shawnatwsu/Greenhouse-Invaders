@@ -15,7 +15,7 @@ class PhotosynthesisGun:
         self.width = width
         
         # resize image
-        self.image = pygame.transform.scale(self.image, (100, 70))
+        self.image = pygame.transform.scale(self.image, (90, 80))
 
 
     def get_gunX(self):
