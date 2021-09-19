@@ -16,7 +16,7 @@ MOVEMENT_SPEED = 5
 LEAF_SPEED = 5
 GUN_X = 440
 GUN_Y = 600
-
+WIN_KILLS = 5
 
 class CO2Invaders:
     def __init__(self):
@@ -24,12 +24,14 @@ class CO2Invaders:
 
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self._background = pygame.image.load('images/titleBackground.png')
+        self.background_pos = 0
         self.clock = pygame.time.Clock()
         self._state = "title"  # title, intro, unfinished, won, lost, lost2
         self.lives = 3
         self.lives_image = pygame.image.load('images/lives_3.png')
         self.kills = 0
         self.not_fine = pygame.image.load('images/this_is_not_fine.png')
+        self.clear_kills = 0
 
         # Components
         self.co2_particle = CO2Astroids((9, 9), load_sprite('co2.png', (80, 80), True), (0, 0))
@@ -133,6 +135,7 @@ class CO2Invaders:
         # enemy and leaf
         if self.leaf.has_collided(self.co2_particle._x, self.co2_particle._y) and self.leaf.bullet_state == 'fire':
             self.kills += 1
+            self.clear_kills += 1
             self.leaf.bullet_state = 'ready'
             self.leaf.leafY = 0
             self.co2_particle._x = random.randint(100, WIDTH)
@@ -143,8 +146,9 @@ class CO2Invaders:
             explosion_sound.play()
 
         elif self.leaf.has_collided(self.nitrogen_particle._x, self.nitrogen_particle._y) and self.leaf.bullet_state == 'fire':
-            print(self.leaf.bullet_state)
+            # print(self.leaf.bullet_state)
             self.kills += 1
+            self.clear_kills += 1
             self.leaf.bullet_state = 'ready'
             self.leaf.leafY = 0
             self.nitrogen_particle._x = random.randint(100, WIDTH)
@@ -152,9 +156,11 @@ class CO2Invaders:
             # Sound when leaf collides with enemy
             explosion_sound = mixer.Sound('sounds/explosion2.wav')
             explosion_sound.play()
-            print(self.leaf.bullet_state)
+            # print(self.leaf.bullet_state)
+
         elif self.leaf.has_collided(self.ch4_particle._x, self.ch4_particle._y) and self.leaf.bullet_state == 'fire':
             self.kills += 1
+            self.clear_kills += 1
             self.leaf.bullet_state = 'ready'
             self.leaf.leafY = 0
             self.ch4_particle._x = random.randint(100, WIDTH)
@@ -180,8 +186,38 @@ class CO2Invaders:
             # Sound when gun collides with enemy
             explosion_sound = mixer.Sound('sounds/explosion2.wav')
             explosion_sound.play()
-            
 
+
+        # Determines how many lives are displayed
+        if self.lives == 3:
+            self.lives_image = pygame.image.load('images/lives_3.png')
+        elif self.lives == 2:
+            self.lives_image = pygame.image.load('images/lives_2.png')
+        elif self.lives == 1:
+            self.lives_image = pygame.image.load('images/lives_1.png')
+
+        # No lives left, player loses
+        if self.lives == 0:
+            self._state = "lost"
+
+        # Background gets cleaner as enemies are killed
+        clear_per_kills = WIN_KILLS // 5
+
+        if self.clear_kills == clear_per_kills and self._state == "unfinished":
+            background_arr = [
+                pygame.image.load('images/game_2.jpg'),
+                pygame.image.load('images/game_3.jpg'),
+                pygame.image.load('images/game_4.jpg'),
+                pygame.image.load('images/game_5.jpg'),
+                pygame.image.load('images/game_6.jpg')]
+            self._background = background_arr[self.background_pos]
+            self.background_pos += 1
+            # print(self.background_pos)
+            self.clear_kills = 0
+
+        # Player killed enough enemies, they win
+        if self.kills == WIN_KILLS:
+            self._state = "won"
         # Determines how many lives are displayed
         if self.lives == 3:
             self.lives_image = pygame.image.load('images/lives_3.png')
