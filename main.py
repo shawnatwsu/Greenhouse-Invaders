@@ -147,8 +147,10 @@ class CO2Invaders:
             self.lives -= 1
             self.nitrogen_particle._x = random.randint(100, WIDTH)
             self.nitrogen_particle._y = random.randint(100, HEIGHT // 2)
-        elif self.gun.has_collided((self.ch4_particle._x, self.ch4_particle._y):
-            self.live -= 1
+        # elif self.gun.has_collided((self.ch4_particle._x, self.ch4_particle._y):
+        #     self.lives -= 1
+        #     self.ch4_particle._x = random.randint(100, WIDTH)
+        #     self.ch4_particle._y = random.randint(100, HEIGHT // 2)
 
         # Determines how many lives are displayed
         if self.lives == 3:
