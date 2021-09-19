@@ -1,5 +1,6 @@
 import pygame
 import random
+from pygame import mixer
 
 from load_sprite import load_sprite
 from CO2Astroids import CO2Astroids
@@ -89,7 +90,11 @@ class CO2Invaders:
                         # self.leaf.set_bullet_state("fire")
                         self.leaf.bullet_state = "fire"
                         self.leaf.leafX = self.gun.gunX+30
-                    
+
+                        # Sound when gun is fired
+                        bullet_sound = mixer.Sound('sounds/bullet2.wav')
+                        bullet_sound.play()
+
                 if event.type == pygame.KEYUP:
                     # stop moving
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
@@ -136,6 +141,10 @@ class CO2Invaders:
             self.leaf.leafY = 0
             self.co2_particle._x = random.randint(100, WIDTH)
             self.co2_particle._y = random.randint(100, HEIGHT//2)
+
+            # Sound when leaf collides with enemy
+            explosion_sound = mixer.Sound('sounds/explosion2.wav')
+            explosion_sound.play()
 
         # gun and enemy
         if self.gun.has_collided(self.co2_particle._x, self.co2_particle._y):
