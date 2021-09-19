@@ -8,8 +8,8 @@ class CH4Asteroids:
         self.screen = screen
         self.image = pygame.image.load('images/Ch4_sprite.png')
 
-        self._x = random.randint(0, 800)
-        self._y = random.randint(50, 150)
+        self._x = 0
+        self._y = 0
         #rendering the image of the particle
         self.image = pygame.transform.scale(self.image, (125, 180))
 
