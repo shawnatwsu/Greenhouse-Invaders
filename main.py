@@ -13,6 +13,7 @@ MOVEMENT_SPEED = 5
 LEAF_SPEED = 5
 GUN_X = 440
 GUN_Y =600
+WIN_KILLS = 5  # Has to be a multiple of 5
 
 class CO2Invaders:
     def __init__(self):
@@ -21,10 +22,12 @@ class CO2Invaders:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self._background = pygame.image.load('images/titleBackground.png')
         self.clock = pygame.time.Clock()
-        self._state = "title"   # title, intro, unfinished, won, lost, lost2
+        self._state = "title"                                   # title, intro, unfinished, won, lost, lost2
         self.lives = 3
         self.lives_image = pygame.image.load('images/lives_3.png')
-        self.kills = 0
+        self.kills = 0                                          # keeps track of total kills
+        self.clear_kills = 0                                    # resets to 0 when new clear background is placed
+        self.background_pos = 0
         self.not_fine = pygame.image.load('images/this_is_not_fine.png')
 
         # Components
@@ -44,14 +47,16 @@ class CO2Invaders:
         pygame.init()
         pygame.display.set_caption("CO2 Invaders")
 
-        # add music
-        # pygame.mixer.init()
-        # pygame.mixer.music.load("")
-        # pygame.mixer.music.play()
-
         # game icon
         icon = pygame.image.load('images/co2.png')
         pygame.display.set_icon(icon)
+
+    def reverts_attributes(self):
+        """Reverts attributes to their original values for new game"""
+        self.lives = 3
+        self.kills = 0
+        self.background_pos = 0
+        self.clear_kills = 0
 
     def _handle_input(self):
         for event in pygame.event.get():
@@ -67,7 +72,7 @@ class CO2Invaders:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         self._state = "unfinished"
-                        self._background = pygame.image.load('images/game_1.png')
+                        self._background = pygame.image.load('images/game_1.jpg')
             elif self._state == "unfinished":
 
                 # Keys to control gun
@@ -107,27 +112,26 @@ class CO2Invaders:
                 if event.type == pygame.KEYDOWN:
                     self._state = "lost2"
                     self._background = pygame.image.load('images/lost2Background.png')
-                    self.lives = 3
-                    self.kills = 0
 
             elif self._state == "lost2":
                 if event.type == pygame.KEYDOWN:
                     self._state = "title"
                     self._background = pygame.image.load('images/titleBackground.png')
+                    self.reverts_attributes()
 
             else:                                                    # state == won
                 if event.type == pygame.KEYDOWN:
                     self._state = "title"
                     self._background = pygame.image.load('images/titleBackground.png')
-                    self.lives = 3
-                    self.kills = 0
+                    self.reverts_attributes()
 
     def _process_game_logic(self):
 
         # collision detection
         # enemy and leaf
-        if self.leaf.has_collided(self.co2_particle._x, self.co2_particle._y) and self.leaf.bullet_state == 'fire':
+        if self.leaf.has_collided(self.co2_particle._x, self.co2_particle._y):
             self.kills += 1
+            self.clear_kills += 1
             self.leaf.bullet_state = 'ready'
             self.leaf.leafY = 0
             self.co2_particle._x = random.randint(100, WIDTH)
@@ -152,9 +156,21 @@ class CO2Invaders:
             self._state = "lost"
 
         # Player killed enough enemies, they win
-        if self.kills == 5:
+        if self.kills == WIN_KILLS:
             self._state = "won"
 
+        # Background gets cleaner as enemies are killed
+        clear_per_kills = WIN_KILLS // 5
+        if self.clear_kills == clear_per_kills:
+            background_arr = [
+                pygame.image.load('images/game_2.jpg'),
+                pygame.image.load('images/game_3.jpg'),
+                pygame.image.load('images/game_4.jpg'),
+                pygame.image.load('images/game_5.jpg'),
+                pygame.image.load('images/game_6.jpg')]
+            self._background = background_arr[self.background_pos]
+            self.background_pos += 1
+            self.clear_kills = 0
 
     def _draw(self):
         # background color
