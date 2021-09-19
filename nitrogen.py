@@ -6,16 +6,17 @@ class nitrogenAsteroids:
 
     def __init__(self, screen):
         self.screen = screen
-        self.image = pygame.image.load('images/nitrogen_sprite.png')
+        self.image = pygame.image.load('images/coolnitrogen.png')
 
         self._x = random.randint(0, 800)
         self._y = random.randint(50, 150)
+
         #rendering the image of the particle
-        self.image = pygame.transform.scale(self.image, (100, 180))
+        self.image = pygame.transform.scale(self.image, (100, 75))
 
         self._x_change = 25
         self._y_change = 25
-        self._num_of_particles = 3
+        self._num_of_particles = 1
 
     def move(self, screen_size: tuple):
         # shows the movement of methane particles

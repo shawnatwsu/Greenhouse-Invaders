@@ -10,13 +10,15 @@ class CH4Asteroids:
 
         self._x = random.randint(0, 800)
         self._y = random.randint(50, 150)
+        #rendering the image of the particle
+        self.image = pygame.transform.scale(self.image, (125, 180))
 
         self._x_change = 25
         self._y_change = 25
         self._num_of_particles = 1
 
     def move(self, screen_size: tuple):
-        """ defines movement of the CO2 'astroids' """
+        # shows the movement of methane particles
 
         # if particle hits the left side of screen, change its direction
         # also move the particle down some y-value

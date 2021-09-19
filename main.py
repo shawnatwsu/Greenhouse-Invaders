@@ -5,14 +5,17 @@ from load_sprite import load_sprite
 from CO2Astroids import CO2Astroids
 from photosynthesisGun import PhotosynthesisGun
 from leafBullet import LeafBullet
+from CH4Asteroids import CH4Asteroids
+from nitrogen import nitrogenAsteroids
 
 # Settings
 WIDTH, HEIGHT = 950, 700
-BACKGROUND_COLOR = (0,0,0)
+BACKGROUND_COLOR = (0, 0, 0)
 MOVEMENT_SPEED = 5
 LEAF_SPEED = 5
 GUN_X = 440
-GUN_Y =600
+GUN_Y = 600
+
 
 class CO2Invaders:
     def __init__(self):
@@ -21,16 +24,18 @@ class CO2Invaders:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self._background = pygame.image.load('images/titleBackground.png')
         self.clock = pygame.time.Clock()
-        self._state = "title"   # title, intro, unfinished, won, lost, lost2
+        self._state = "title"  # title, intro, unfinished, won, lost, lost2
         self.lives = 3
         self.lives_image = pygame.image.load('images/lives_3.png')
         self.kills = 0
         self.not_fine = pygame.image.load('images/this_is_not_fine.png')
 
         # Components
-        self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', (80,80), True), (0,0))
+        self.co2_particle = CO2Astroids((9, 9), load_sprite('co2.png', (80, 80), True), (0, 0))
         self.gun = PhotosynthesisGun(self.screen, 440, 600, WIDTH)
-        self.leaf = LeafBullet(self.screen, self.gun.gunX+30, "ready", LEAF_SPEED) 
+        self.leaf = LeafBullet(self.screen, self.gun.gunX + 30, "ready", LEAF_SPEED)
+        self.ch4_particle = CH4Asteroids(self.screen)
+        self.nitrogen_particle = nitrogenAsteroids(self.screen)
 
     def main_loop(self):
         running = True
@@ -83,8 +88,8 @@ class CO2Invaders:
                     if event.key == pygame.K_SPACE and self.leaf.bullet_state == "ready":
                         # self.leaf.set_bullet_state("fire")
                         self.leaf.bullet_state = "fire"
-                        self.leaf.leafX = self.gun.gunX+30
-                    
+                        self.leaf.leafX = self.gun.gunX + 30
+
                 if event.type == pygame.KEYUP:
                     # stop moving
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
@@ -115,7 +120,7 @@ class CO2Invaders:
                     self._state = "title"
                     self._background = pygame.image.load('images/titleBackground.png')
 
-            else:                                                    # state == won
+            else:  # state == won
                 if event.type == pygame.KEYDOWN:
                     self._state = "title"
                     self._background = pygame.image.load('images/titleBackground.png')
@@ -131,13 +136,19 @@ class CO2Invaders:
             self.leaf.bullet_state = 'ready'
             self.leaf.leafY = 0
             self.co2_particle._x = random.randint(100, WIDTH)
-            self.co2_particle._y = random.randint(100, HEIGHT//2)
+            self.co2_particle._y = random.randint(100, HEIGHT // 2)
 
         # gun and enemy
         if self.gun.has_collided(self.co2_particle._x, self.co2_particle._y):
             self.lives -= 1
             self.co2_particle._x = random.randint(100, WIDTH)
-            self.co2_particle._y = random.randint(100, HEIGHT//2)
+            self.co2_particle._y = random.randint(100, HEIGHT // 2)
+        elif self.gun.has_collided(self.nitrogen_particle._x, self.nitrogen_particle._y):
+            self.lives -= 1
+            self.nitrogen_particle._x = random.randint(100, WIDTH)
+            self.nitrogen_particle._y = random.randint(100, HEIGHT // 2)
+        elif self.gun.has_collided((self.ch4_particle._x, self.ch4_particle._y):
+            self.live -= 1
 
         # Determines how many lives are displayed
         if self.lives == 3:
@@ -154,7 +165,6 @@ class CO2Invaders:
         # Player killed enough enemies, they win
         if self.kills == 5:
             self._state = "won"
-
 
     def _draw(self):
         # background color
@@ -175,12 +185,12 @@ class CO2Invaders:
                 ["oxygen. It is your job to shoot at the CO2 molecules and", 160],
                 ["help clean the air.", 160],
                 ["- Dr. Climate", 600]]
-            y_coordinate = 110                     # start y_coordinate at 110, increase 40 per new line
+            y_coordinate = 110  # start y_coordinate at 110, increase 40 per new line
             for each_line in intro_text:
                 intro_text = intro_font.render(each_line[0], True, (0, 0, 0))
                 self.screen.blit(intro_text, (each_line[1], y_coordinate))
                 y_coordinate += 40
-        
+
         if self._state == "unfinished":
             # Render lives
             self.screen.blit(self.lives_image, (0, 0))
@@ -197,12 +207,20 @@ class CO2Invaders:
             self.co2_particle.draw(self.screen)
             self.co2_particle.move((950, 700))
 
+            # Render CH4 particle
+            self.ch4_particle.draw(self.screen)
+            self.ch4_particle.move((950, 700))
+
+            # Render N2 Particle
+            self.nitrogen_particle.draw(self.screen)
+            self.nitrogen_particle.move((950, 700))
+
             # Render leaf
             self.leaf.drawLeafBullet()
 
             # Render photosynthesisGun
             self.gun.drawPhotosynthesisGun()
-        
+
         if self._state == "lost":
             over_font = pygame.font.Font('freesansbold.ttf', 64)
             over_text = over_font.render("GAME OVER!", True, (255, 255, 255))
