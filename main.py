@@ -137,6 +137,18 @@ class CO2Invaders:
             self.leaf.leafY = 0
             self.co2_particle._x = random.randint(100, WIDTH)
             self.co2_particle._y = random.randint(100, HEIGHT // 2)
+        if self.leaf.has_collided(self.nitrogen_particle._x, self.nitrogen_particle._y) and self.leaf.bullet_state == 'fire':
+            self.kills += 1
+            self.leaf.bullet_state = 'ready'
+            self.leaf.leafy = 0
+            self.nitrogen_particle._x = random.randint(100, WIDTH)
+            self.nitrogen_particle._y = random.randint(100, HEIGHT // 2)
+        if self.leaf.has_collided(self.ch4_particle._x, self.ch4_particle._y) and self.leaf.bullet_state == 'fire':
+            self.kills += 1
+            self.leaf.bullet_state = 'ready'
+            self.leaf.leafy = 0
+            self.ch4_particle._x = random.randint(100, WIDTH)
+            self.ch4_particle._y = random.randint(100, HEIGHT // 2)
 
         # gun and enemy
         if self.gun.has_collided(self.co2_particle._x, self.co2_particle._y):
@@ -147,10 +159,10 @@ class CO2Invaders:
             self.lives -= 1
             self.nitrogen_particle._x = random.randint(100, WIDTH)
             self.nitrogen_particle._y = random.randint(100, HEIGHT // 2)
-        # elif self.gun.has_collided((self.ch4_particle._x, self.ch4_particle._y):
-        #     self.lives -= 1
-        #     self.ch4_particle._x = random.randint(100, WIDTH)
-        #     self.ch4_particle._y = random.randint(100, HEIGHT // 2)
+        elif self.gun.has_collided(self.ch4_particle._x, self.ch4_particle._y):
+            self.lives -= 1
+            self.ch4_particle._x = random.randint(100, WIDTH)
+            self.ch4_particle._y = random.randint(100, HEIGHT // 2)
 
         # Determines how many lives are displayed
         if self.lives == 3:
