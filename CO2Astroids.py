@@ -11,8 +11,8 @@ class CO2Astroids:
         self._y = 0
         self.sprite = sprite
         
-        self._x_change = 0
-        self._y_change = 50
+        self._x_change = 100 # chagne back to 0
+        self._y_change = 100 # TODO change back to 50
         self._num_of_particles = 6
         self.velocity = Vector2(velocity)
         self.radius = sprite.get_width() / 2

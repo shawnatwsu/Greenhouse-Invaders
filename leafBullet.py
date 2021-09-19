@@ -34,7 +34,7 @@ class LeafBullet:
     def has_collided(self, enemy_x, enemy_y):
         distance = math.sqrt((math.pow(enemy_x - self.leafX, 2)) + (math.pow(enemy_y - self.leafY, 2)))
 
-        if distance < 27:
+        if distance < 45:
             self.collided = True
             return True
 

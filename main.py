@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from load_sprite import load_sprite
 from CO2Astroids import CO2Astroids
@@ -36,6 +37,7 @@ class CO2Invaders:
             self._handle_input()
             self._process_game_logic()
             self._draw()
+            # print(self.lives)
 
     def _init_pygame(self):
         pygame.init()
@@ -118,10 +120,19 @@ class CO2Invaders:
     def _process_game_logic(self):
 
         # collision detection
+        # enemy and leaf
         if self.leaf.has_collided(self.co2_particle._x, self.co2_particle._y):
-            self.lives -= 1
+            self.kills += 1
             self.leaf.bullet_state = 'ready'
             self.leaf.leafY = 0
+            self.co2_particle._x = random.randint(100, WIDTH)
+            self.co2_particle._y = random.randint(100, HEIGHT//2)
+
+        # gun and enemy
+        if self.gun.has_collided(self.co2_particle._x, self.co2_particle._y):
+            self.lives -= 1
+            self.co2_particle._x = random.randint(100, WIDTH)
+            self.co2_particle._y = random.randint(100, HEIGHT//2)
 
         # Determines how many lives are displayed
         if self.lives == 3:
@@ -136,7 +147,7 @@ class CO2Invaders:
             self._state = "lost"
 
         # Player killed enough enemies, they win
-        if self.kills == 5:
+        if self.kills == 10:
             self._state = "won"
 
 
@@ -164,9 +175,6 @@ class CO2Invaders:
             self.co2_particle.move((950, 700))
 
             # Render leaf
-            # if self.bullet_state is "fire":
-            #     leafBullet = LeafBullet(self.screen)
-            #     leafBullet.drawLeafBullet(leafX + 30, leafY + 30)
             self.leaf.drawLeafBullet()
 
             # Render photosynthesisGun
@@ -181,23 +189,6 @@ class CO2Invaders:
             over_font = pygame.font.Font('freesansbold.ttf', 64)
             over_text = over_font.render("YOU WON!", True, (255, 255, 255))
             self.screen.blit(over_text, (280, 250))
-
-        # # gun logic -------------------------------------------
-        # gunX += gun_change
-        #
-        # # handle edges
-        # if gunX <= 0:
-        #     gunX = 0
-        # elif gunX >= (WIDTH - 100): # 100 is width of image
-        #     gunX = (WIDTH - 100)
-        #
-        # # bullet logic -------------------------------------------
-        # if leafY <= 0:
-        #     leafY = 605
-        #     bullet_state = "ready"
-        #
-        # if bullet_state is "fire":
-        #     leafY -= leaf_change
 
         # update display
         pygame.display.update()
