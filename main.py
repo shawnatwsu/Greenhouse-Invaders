@@ -165,7 +165,7 @@ class CO2Invaders:
             intro_text = [
                 ["It's the year 3020 and the CO2 levels ", 305],
                 ["in Earth's atmosphere has reached ", 305],
-                ["dangerous levels. Lucky the smartest scientists", 160],
+                ["dangerous levels. Luckily, the smartest scientists", 160],
                 ["have created the Photosynthesis Gun that turns CO2 into", 160],
                 ["oxygen. It is your job to shoot at the CO2 molecules and", 160],
                 ["help clean the air.", 160],
