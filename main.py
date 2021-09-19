@@ -167,10 +167,6 @@ class CO2Invaders:
         if self.lives == 0:
             self._state = "lost"
 
-        # Player killed enough enemies, they win
-        if self.kills == WIN_KILLS:
-            self._state = "won"
-
         # Background gets cleaner as enemies are killed
         clear_per_kills = WIN_KILLS // 5
 
@@ -185,6 +181,10 @@ class CO2Invaders:
             self._background = background_arr[self.background_pos]
             self.background_pos += 1
             self.clear_kills = 0
+
+        # Player killed enough enemies, they win
+        if self.kills == WIN_KILLS:
+            self._state = "won"
 
     def _draw(self):
         # background color
