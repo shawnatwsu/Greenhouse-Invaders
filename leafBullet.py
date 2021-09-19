@@ -29,13 +29,14 @@ class LeafBullet:
             self.leafY -= self.leaf_change
 
         if self.bullet_state == "fire":
-            self.screen.blit(self.image, (self.leafX,self.leafY)) # TODO find the center
+            self.screen.blit(self.image, (self.leafX,self.leafY))
 
 
     def has_collided(self, enemy_x, enemy_y):
+        
         distance = math.sqrt((math.pow(enemy_x - self.leafX, 2)) + (math.pow(enemy_y - self.leafY, 2)))
-
-        if distance < 45:
+        # print(distance)
+        if distance < 100:
             self.collided = True
             return True
 
