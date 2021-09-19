@@ -16,7 +16,6 @@ GUN_X = 440
 GUN_Y =600
 WIN_KILLS = 5  # Has to be a multiple of 5
 
-
 class CO2Invaders:
     def __init__(self):
         self._init_pygame()
@@ -174,7 +173,9 @@ class CO2Invaders:
 
         # Background gets cleaner as enemies are killed
         clear_per_kills = WIN_KILLS // 5
+
         if self.clear_kills == clear_per_kills and self._state == "unfinished":
+
             background_arr = [
                 pygame.image.load('images/game_2.jpg'),
                 pygame.image.load('images/game_3.jpg'),
