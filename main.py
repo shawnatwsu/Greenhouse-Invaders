@@ -56,10 +56,7 @@ class CO2Invaders:
 
         running = True
         while running:
-            if self._state == "won":
-                self.clock.tick(60)
-            else:
-                self.clock.tick(300)
+            self.clock.tick(60)
             self._handle_input()
             self._process_game_logic()
             self._draw()

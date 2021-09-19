@@ -9,7 +9,7 @@ class LeafBullet:
         self.image = pygame.image.load('images/leaf.png')
         
         # resize image
-        self.image = pygame.transform.scale(self.image, (30, 30))
+        self.image = pygame.transform.scale(self.image, (50, 50))
 
         # init
         self.leafX = gunX                          # TODO function to get gunX location
