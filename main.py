@@ -158,6 +158,24 @@ class CO2Invaders:
 
         # load background image and put on screen
         self.screen.blit(self._background, (0, 0))
+
+        if self._state == "intro":
+            intro_font = pygame.font.Font('freesansbold.ttf', 25)
+
+            # Display intro text, format:[text, x-coordinate]
+            intro_text = [
+                ["It's the year 3020 and the CO2 levels ", 305],
+                ["in Earth's atmosphere has reached ", 305],
+                ["dangerous levels. Lucky the smartest scientists", 160],
+                ["have created the Photosynthesis Gun that turns CO2 into", 160],
+                ["oxygen. It is your job to shoot at the CO2 molecules and", 160],
+                ["help clean the air.", 160],
+                ["- Dr. Climate", 600]]
+            y_coordinate = 110                     # start y_coordinate at 110, increase 40 per new line
+            for each_line in intro_text:
+                intro_text = intro_font.render(each_line[0], True, (0, 0, 0))
+                self.screen.blit(intro_text, (each_line[1], y_coordinate))
+                y_coordinate += 40
         
         if self._state == "unfinished":
             # Render lives
