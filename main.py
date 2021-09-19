@@ -44,6 +44,11 @@ class CO2Invaders:
         pygame.init()
         pygame.display.set_caption("CO2 Invaders")
 
+        # add music
+        # pygame.mixer.init()
+        # pygame.mixer.music.load("")
+        # pygame.mixer.music.play()
+
         # game icon
         icon = pygame.image.load('images/co2.png')
         pygame.display.set_icon(icon)
@@ -121,7 +126,7 @@ class CO2Invaders:
 
         # collision detection
         # enemy and leaf
-        if self.leaf.has_collided(self.co2_particle._x, self.co2_particle._y):
+        if self.leaf.has_collided(self.co2_particle._x, self.co2_particle._y) and self.leaf.bullet_state == 'fire':
             self.kills += 1
             self.leaf.bullet_state = 'ready'
             self.leaf.leafY = 0
@@ -147,7 +152,7 @@ class CO2Invaders:
             self._state = "lost"
 
         # Player killed enough enemies, they win
-        if self.kills == 10:
+        if self.kills == 5:
             self._state = "won"
 
 

@@ -43,7 +43,7 @@ class PhotosynthesisGun:
     def has_collided(self, enemy_x, enemy_y):
         distance = math.sqrt((math.pow(enemy_x - self.gunX, 2)) + (math.pow(enemy_y - self.gunY, 2)))
 
-        if distance < 100:
+        if distance < 50:
             self.collided = True
             return True
 
