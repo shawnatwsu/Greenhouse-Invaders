@@ -92,8 +92,15 @@ class CO2Invaders:
             elif self._state == "intro":
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
+                        self._state = "instructions"
+                        self._background = pygame.image.load('images/instructions.jpg')
+
+            elif self._state == "instructions":
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
                         self._state = "unfinished"
                         self._background = pygame.image.load('images/game_1.jpg')
+                        
             elif self._state == "unfinished":
 
                 # Keys to control gun
