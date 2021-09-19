@@ -56,7 +56,7 @@ class CO2Invaders:
 
     def _init_pygame(self):
         pygame.init()
-        pygame.display.set_caption("CO2 Invaders")
+        pygame.display.set_caption("Greenhouse Invaders")
 
         # game icon
         icon = pygame.image.load('images/co2.png')
@@ -205,12 +205,12 @@ class CO2Invaders:
 
             # Display intro text, format:[text, x-coordinate]
             intro_text = [
-                ["It's the year 3020 and the CO2 levels ", 305],
+                ["It's the year 3020 and the toxic gasses ", 305],
                 ["in Earth's atmosphere has reached ", 305],
                 ["dangerous levels. Luckily, the smartest scientists", 160],
-                ["have created the Photosynthesis Gun that turns CO2 into", 160],
-                ["oxygen. It is your job to shoot at the CO2 molecules and", 160],
-                ["help clean the air.", 160],
+                ["have created the Photosynthesis Gun that turns", 160],
+                ["greenhouse gasses into oxygen. It is your job to shoot at", 160],
+                ["the molecules and help clean the air.", 160],
                 ["- Dr. Climate", 600]]
             y_coordinate = 110  # start y_coordinate at 110, increase 40 per new line
             for each_line in intro_text:
