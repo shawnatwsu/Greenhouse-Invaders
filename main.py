@@ -37,6 +37,9 @@ class CO2Invaders:
         self.leaf = LeafBullet(self.screen, self.gun.gunX+30, "ready", LEAF_SPEED) 
 
     def main_loop(self):
+        mixer.music.load("sounds/themeSong.mp3")
+        mixer.music.play(-1)
+
         running = True
         while running:
             self._handle_input()
@@ -170,7 +173,9 @@ class CO2Invaders:
 
         # Background gets cleaner as enemies are killed
         clear_per_kills = WIN_KILLS // 5
-        if self.clear_kills == clear_per_kills:
+
+        if self.clear_kills == clear_per_kills and self._state == "unfinished":
+
             background_arr = [
                 pygame.image.load('images/game_2.jpg'),
                 pygame.image.load('images/game_3.jpg'),
