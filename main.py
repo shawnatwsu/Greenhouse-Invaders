@@ -8,6 +8,7 @@ from photosynthesisGun import PhotosynthesisGun
 from leafBullet import LeafBullet
 from fireworks import *
 
+
 # Settings
 WIDTH, HEIGHT = 950, 700
 BACKGROUND_COLOR = (0, 0, 0)
