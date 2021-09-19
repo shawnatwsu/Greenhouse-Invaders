@@ -76,11 +76,10 @@ class CO2Invaders:
 
                     # fire bullets
                     if event.key == pygame.K_SPACE and self.leaf.bullet_state == "ready":
-                        self.leaf.set_bullet_state("fire")
+                        # self.leaf.set_bullet_state("fire")
+                        self.leaf.bullet_state = "fire"
                         self.leaf.leafX = self.gun.gunX+30
                     
-                    #     self.fireLeafBullet(gunX, leafY)
-
                 if event.type == pygame.KEYUP:
                     # stop moving
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
