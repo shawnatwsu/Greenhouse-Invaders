@@ -5,3 +5,18 @@ This is the beginning products of OSU Hackathon with the theme being climate/ene
 
 <!-- ![](images/greenhouse_invaders_updated.gif) -->
 ![](images/ghi_resize.gif)
+
+
+## Requirements
+Python 
+## Setup
+Windows:
+
+```sh
+pip install pygame
+```
+
+# Usage
+```sh
+python .\main.py
+```
