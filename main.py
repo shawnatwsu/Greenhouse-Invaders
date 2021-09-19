@@ -40,6 +40,7 @@ class CO2Invaders:
         # Background Music
         mixer.music.load("sounds/themeSong.mp3")
         mixer.music.play(-1)
+        mixer.music.set_volume(0.5)
 
         running = True
         while running:
@@ -140,12 +141,18 @@ class CO2Invaders:
             # Sound when leaf collides with enemy
             explosion_sound = mixer.Sound('sounds/explosion2.wav')
             explosion_sound.play()
+            
 
         # gun and enemy
         if self.gun.has_collided(self.co2_particle._x, self.co2_particle._y):
             self.lives -= 1
             self.co2_particle._x = random.randint(100, WIDTH)
             self.co2_particle._y = random.randint(100, HEIGHT//2)
+
+            # Sound when gun collides with enemy
+            explosion_sound = mixer.Sound('sounds/explosion2.wav')
+            explosion_sound.play()
+            
 
         # Determines how many lives are displayed
         if self.lives == 3:
