@@ -1,6 +1,8 @@
 import pygame
+from load_sprite import load_sprite
+import math
 
-class LeafBullet():
+class LeafBullet:
 
     def __init__(self, screen, gunX, bullet_state, leaf_speed):
         self.screen = screen
@@ -14,6 +16,7 @@ class LeafBullet():
         self.leafY = 0
         self.bullet_state = bullet_state
         self.leaf_change = leaf_speed
+
         
     def drawLeafBullet(self):
         # print(leafX, leafY)
@@ -28,5 +31,13 @@ class LeafBullet():
         if self.bullet_state == "fire":
             self.screen.blit(self.image, (self.leafX,self.leafY)) # TODO find the center
 
-    def set_bullet_state(self, value):
-        self.bullet_state = value
+
+    def has_collided(self, enemy_x, enemy_y):
+        distance = math.sqrt((math.pow(enemy_x - self.leafX, 2)) + (math.pow(enemy_y - self.leafY, 2)))
+
+        if distance < 45:
+            self.collided = True
+            return True
+
+        return False
+

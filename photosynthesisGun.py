@@ -1,4 +1,5 @@
 import pygame
+import math
 
 
 class PhotosynthesisGun:
@@ -15,6 +16,7 @@ class PhotosynthesisGun:
         
         # resize image
         self.image = pygame.transform.scale(self.image, (100, 70))
+
 
     def get_gunX(self):
         return self.gunX
@@ -38,3 +40,11 @@ class PhotosynthesisGun:
         self.screen.blit(self.image, (self.gunX, self.gunY)) 
 
         
+    def has_collided(self, enemy_x, enemy_y):
+        distance = math.sqrt((math.pow(enemy_x - self.gunX, 2)) + (math.pow(enemy_y - self.gunY, 2)))
+
+        if distance < 100:
+            self.collided = True
+            return True
+
+        return False

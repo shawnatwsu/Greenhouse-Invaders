@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from load_sprite import load_sprite
 from CO2Astroids import CO2Astroids
@@ -27,10 +28,9 @@ class CO2Invaders:
         self.not_fine = pygame.image.load('images/this_is_not_fine.png')
 
         # Components
-        self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', True), (0,0))
-        self.gun = PhotosynthesisGun(self.screen, GUN_X, GUN_Y, WIDTH)
-        self.leaf = LeafBullet(self.screen, self.gun.get_gunX() + 30, "ready", LEAF_SPEED) 
-
+        self.co2_particle = CO2Astroids((9,9), load_sprite('co2.png', (80,80), True), (0,0))
+        self.gun = PhotosynthesisGun(self.screen, 440, 600, WIDTH)
+        self.leaf = LeafBullet(self.screen, self.gun.gunX+30, "ready", LEAF_SPEED) 
 
     def main_loop(self):
         running = True
@@ -38,6 +38,7 @@ class CO2Invaders:
             self._handle_input()
             self._process_game_logic()
             self._draw()
+            # print(self.lives)
 
     def _init_pygame(self):
         pygame.init()
@@ -95,6 +96,7 @@ class CO2Invaders:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_TAB:
                         self.kills += 1
+
                 # ____________________________________ TEMPORARY ____________________________________________
 
             elif self._state == "lost":
@@ -118,6 +120,21 @@ class CO2Invaders:
 
     def _process_game_logic(self):
 
+        # collision detection
+        # enemy and leaf
+        if self.leaf.has_collided(self.co2_particle._x, self.co2_particle._y):
+            self.kills += 1
+            self.leaf.bullet_state = 'ready'
+            self.leaf.leafY = 0
+            self.co2_particle._x = random.randint(100, WIDTH)
+            self.co2_particle._y = random.randint(100, HEIGHT//2)
+
+        # gun and enemy
+        if self.gun.has_collided(self.co2_particle._x, self.co2_particle._y):
+            self.lives -= 1
+            self.co2_particle._x = random.randint(100, WIDTH)
+            self.co2_particle._y = random.randint(100, HEIGHT//2)
+
         # Determines how many lives are displayed
         if self.lives == 3:
             self.lives_image = pygame.image.load('images/lives_3.png')
@@ -131,7 +148,7 @@ class CO2Invaders:
             self._state = "lost"
 
         # Player killed enough enemies, they win
-        if self.kills == 5:
+        if self.kills == 10:
             self._state = "won"
 
 
