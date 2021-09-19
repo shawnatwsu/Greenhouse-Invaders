@@ -17,6 +17,16 @@ GUN_X = 440
 GUN_Y = 600
 WIN_KILLS = 5  # Has to be a multiple of 5
 
+# SOURCES:
+# Images:
+#   Title background - Martina Badini/Shutterstock.com
+#   Scientist, leaf, gun, co2, recycling - Flaticon.com
+#   Not Fine Meme - KC Green’s 2013 webcomic "On Fire."
+# Sounds:
+#   Bullets, collisions - https://freesound.org/browse/tags/game-sound/
+#   Music - https://www.chosic.com/free-music/games/
+# Others:
+#   Fireworks - https://github.com/LytixDev/pygame_fireworks/blob/master/fireworks.py
 
 class CO2Invaders:
     def __init__(self):
@@ -49,7 +59,7 @@ class CO2Invaders:
             if self._state == "won":
                 self.clock.tick(60)
             else:
-                self.clock.tick(600)
+                self.clock.tick(300)
             self._handle_input()
             self._process_game_logic()
             self._draw()
@@ -109,10 +119,6 @@ class CO2Invaders:
                         # Sound when gun is fired
                         bullet_sound = mixer.Sound('sounds/bullet2.wav')
                         bullet_sound.play()
-
-                    # _________________________________ TEMP ____________________________
-                    if event.key == pygame.K_BACKSPACE:
-                        self.kills += 1
 
                 if event.type == pygame.KEYUP:
                     # stop moving
