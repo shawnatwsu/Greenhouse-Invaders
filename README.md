@@ -13,10 +13,10 @@ Pygame requires Python; if you don't already have it, you can download it from [
 Windows:
 
 ```sh
-pip install pygame
+ > pip install pygame
 ```
 
 # Usage
 ```sh
-python .\main.py
+ > python .\main.py
 ```
