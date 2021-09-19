@@ -23,11 +23,11 @@ class CO2Invaders:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self._background = pygame.image.load('images/titleBackground.png')
         self.clock = pygame.time.Clock()
-        self._state = "title"                                   # title, intro, unfinished, won, lost, lost2
+        self._state = "title"                                 # title, intro, instructions, unfinished, won, lost, lost2
         self.lives = 3
         self.lives_image = pygame.image.load('images/lives_3.png')
-        self.kills = 0                                          # keeps track of total kills
-        self.clear_kills = 0                                    # resets to 0 when new clear background is placed
+        self.kills = 0                                        # keeps track of total kills
+        self.clear_kills = 0                                  # resets to 0 when new clear background is placed
         self.background_pos = 0
         self.not_fine = pygame.image.load('images/this_is_not_fine.png')
 
@@ -37,6 +37,7 @@ class CO2Invaders:
         self.leaf = LeafBullet(self.screen, self.gun.gunX+30, "ready", LEAF_SPEED) 
 
     def main_loop(self):
+        # Background Music
         mixer.music.load("sounds/themeSong.mp3")
         mixer.music.play(-1)
 
@@ -72,13 +73,20 @@ class CO2Invaders:
                     if event.key == pygame.K_SPACE:
                         self._state = "intro"
                         self._background = pygame.image.load('images/introBackground.png')
+
             elif self._state == "intro":
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self._state = "instructions"
+                        self._background = pygame.image.load('images/instructions.jpg')
+
+            elif self._state == "instructions":
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         self._state = "unfinished"
                         self._background = pygame.image.load('images/game_1.jpg')
-            elif self._state == "unfinished":
 
+            elif self._state == "unfinished":
                 # Keys to control gun
                 if event.type == pygame.KEYDOWN:
                     # move right
@@ -87,34 +95,18 @@ class CO2Invaders:
                     # move left
                     if event.key == pygame.K_LEFT:
                         self.gun.set_gun_change(-MOVEMENT_SPEED)
-
                     # fire bullets
                     if event.key == pygame.K_SPACE and self.leaf.bullet_state == "ready":
                         # self.leaf.set_bullet_state("fire")
                         self.leaf.bullet_state = "fire"
                         self.leaf.leafX = self.gun.gunX+30
-
                         # Sound when gun is fired
                         bullet_sound = mixer.Sound('sounds/bullet2.wav')
                         bullet_sound.play()
-
                 if event.type == pygame.KEYUP:
                     # stop moving
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                         self.gun.set_gun_change(0)
-
-                # ____________________________________ TEMPORARY ____________________________________________
-                # Need code to determine when player loses a life
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_BACKSPACE:
-                        self.lives -= 1
-
-                # Need code to determine when player kills an enemy
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_TAB:
-                        self.kills += 1
-
-                # ____________________________________ TEMPORARY ____________________________________________
 
             elif self._state == "lost":
                 if event.type == pygame.KEYDOWN:
