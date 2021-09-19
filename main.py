@@ -19,7 +19,7 @@ LEAF_SPEED = 5
 GUN_X = 440
 GUN_Y = 600
 WIN_KILLS = 5
-VOLUME = 0.5
+VOLUME = 0.3
 
 # SOURCES:
 # Images:
