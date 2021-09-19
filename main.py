@@ -332,6 +332,12 @@ class CO2Invaders:
         # update display
         pygame.display.update()
 
+    def reverts_attributes(self):
+            """Reverts attributes to their original values for new game"""
+            self.lives = 3
+            self.kills = 0
+            self.background_pos = 0
+            self.clear_kills = 0
 
 def main():
     game = CO2Invaders()
