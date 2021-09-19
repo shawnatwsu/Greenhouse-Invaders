@@ -17,6 +17,7 @@ LEAF_SPEED = 5
 GUN_X = 440
 GUN_Y = 600
 WIN_KILLS = 5
+VOLUME = 0.5
 
 class CO2Invaders:
     def __init__(self):
@@ -55,7 +56,7 @@ class CO2Invaders:
         # Background Music
         mixer.music.load("sounds/themeSong.mp3")
         mixer.music.play(-1)
-        mixer.music.set_volume(0.5)
+        mixer.music.set_volume(VOLUME)
 
         # game icon
         icon = pygame.image.load('images/co2.png')
