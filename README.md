@@ -8,7 +8,7 @@ This is the beginning products of OSU Hackathon with the theme being climate/ene
 
 
 ## Requirements
-Python 
+Pygame requires Python; if you don't already have it, you can download it from [https://www.python.org/](python.org). 
 ## Setup
 Windows:
 
